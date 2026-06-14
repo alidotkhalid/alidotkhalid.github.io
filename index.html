@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALI KHALID // ML RESEARCHER</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:        #050a0f;
+      --bg2:       #0a1520;
+      --bg3:       #0f1f30;
+      --cyan:      #00f5ff;
+      --cyan-dim:  #00a8b5;
+      --magenta:   #ff2d78;
+      --gold:      #ffd700;
+      --text:      #c8d8e8;
+      --text-dim:  #5a7a9a;
+      --border:    rgba(0,245,255,0.18);
+      --glow:      0 0 12px rgba(0,245,255,0.5);
+      --glow-mg:   0 0 12px rgba(255,45,120,0.5);
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── SCANLINES OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px
+      );
+    }
+
+    /* ── GRID NOISE ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(5,10,15,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .inner {
+      max-width: 900px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900; font-size: 14px;
+      color: var(--cyan);
+      text-shadow: var(--glow);
+      letter-spacing: 3px;
+    }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-dim); text-decoration: none;
+      transition: color .2s, text-shadow .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); text-shadow: var(--glow); }
+
+    /* ── HERO ── */
+    #hero {
+      padding: 160px 0 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .hero-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 4px; color: var(--magenta);
+      text-shadow: var(--glow-mg);
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.1;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(0,245,255,0.25);
+      margin-bottom: 8px;
+    }
+    h1 span { color: var(--cyan); text-shadow: var(--glow); }
+    .hero-subtitle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 15px; color: var(--cyan-dim);
+      letter-spacing: 2px; margin-bottom: 28px;
+    }
+    .hero-bio {
+      max-width: 580px; color: var(--text);
+      font-size: 15px; line-height: 1.8; margin-bottom: 40px;
+    }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+    .badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border: 1px solid var(--cyan);
+      color: var(--cyan); border-radius: 2px;
+      opacity: 0.7;
+    }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      text-decoration: none;
+      padding: 11px 24px;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      position: relative; overflow: hidden;
+      transition: color .25s, background .25s, box-shadow .25s;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: var(--cyan); color: var(--bg);
+      box-shadow: var(--glow);
+    }
+    .btn.btn-mg {
+      border-color: var(--magenta); color: var(--magenta);
+    }
+    .btn.btn-mg:hover {
+      background: var(--magenta); color: #fff;
+      box-shadow: var(--glow-mg);
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-header { margin-bottom: 48px; }
+    .section-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 4px; color: var(--magenta);
+      text-shadow: var(--glow-mg); margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700; font-size: clamp(1.4rem, 3vw, 2rem);
+      color: #fff; letter-spacing: 2px;
+    }
+    h2 span { color: var(--cyan); }
+    .section-line {
+      margin-top: 14px; height: 1px;
+      background: linear-gradient(to right, var(--cyan), transparent);
+      box-shadow: var(--glow);
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      position: relative;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+      background: var(--cyan);
+      box-shadow: var(--glow);
+    }
+    .card:hover { border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,245,255,0.12); }
+    .card.card-mg::before { background: var(--magenta); box-shadow: var(--glow-mg); }
+    .card.card-mg:hover { border-color: var(--magenta); box-shadow: 0 0 20px rgba(255,45,120,0.12); }
+
+    /* ── EDUCATION ── */
+    .edu-school {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700; font-size: 15px; color: var(--cyan);
+      letter-spacing: 1px; margin-bottom: 4px;
+    }
+    .edu-degree { font-size: 14px; color: #fff; font-weight: 500; margin-bottom: 4px; }
+    .edu-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; color: var(--text-dim); letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .edu-thesis { font-size: 13px; color: var(--text); font-style: italic; margin-bottom: 10px; }
+    .award-tag {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 1px;
+      padding: 3px 10px;
+      border: 1px solid var(--gold); color: var(--gold);
+      margin-right: 8px; margin-top: 4px; opacity: 0.85;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-role {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700; font-size: 14px; color: var(--cyan);
+      letter-spacing: 1px; margin-bottom: 4px;
+    }
+    .exp-org { font-size: 14px; color: #fff; font-weight: 500; margin-bottom: 4px; }
+    .exp-date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; color: var(--text-dim); letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .exp-bullets { padding-left: 18px; }
+    .exp-bullets li { font-size: 13.5px; color: var(--text); margin-bottom: 8px; line-height: 1.6; }
+    .exp-bullets li::marker { color: var(--cyan); }
+
+    /* ── PUBLICATIONS ── */
+    .pub-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 22px 28px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .pub-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+      background: var(--magenta);
+      box-shadow: var(--glow-mg);
+    }
+    .pub-card:hover { border-color: var(--magenta); box-shadow: 0 0 20px rgba(255,45,120,0.12); }
+    .pub-venue {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 3px; color: var(--magenta);
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .pub-title {
+      font-size: 14.5px; color: #fff; font-weight: 500;
+      line-height: 1.5; margin-bottom: 8px;
+    }
+    .pub-authors { font-size: 12.5px; color: var(--text-dim); margin-bottom: 12px; line-height: 1.5; }
+    .pub-link {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 2px;
+      color: var(--cyan); text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s, text-shadow .2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .pub-link:hover { border-color: var(--cyan); text-shadow: var(--glow); }
+    .pub-link::after { content: '→'; }
+    .pub-accepted {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 2px;
+      color: var(--gold); opacity: 0.8;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .skill-block {
+      background: var(--bg2); border: 1px solid var(--border); padding: 22px 24px;
+    }
+    .skill-block-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 3px; color: var(--cyan);
+      text-transform: uppercase; margin-bottom: 14px;
+    }
+    .skill-tag {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 1px;
+      padding: 4px 10px; margin: 3px 4px 3px 0;
+      border: 1px solid rgba(0,245,255,0.25);
+      color: var(--text); transition: border-color .2s, color .2s;
+    }
+    .skill-tag:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* ── PROJECT CARDS ── */
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 26px 30px;
+      margin-bottom: 20px;
+      position: relative;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+      background: var(--gold);
+      box-shadow: 0 0 12px rgba(255,215,0,0.5);
+    }
+    .project-card:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(255,215,0,0.1); }
+    .project-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 3px; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+    .project-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 13.5px; font-weight: 700; color: #fff;
+      letter-spacing: 1px; margin-bottom: 10px; line-height: 1.4;
+    }
+    .project-desc {
+      font-size: 13.5px; color: var(--text); line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .project-link {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; letter-spacing: 2px;
+      color: var(--gold); text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s, text-shadow .2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .project-link:hover { border-color: var(--gold); text-shadow: 0 0 12px rgba(255,215,0,0.5); }
+    .project-link::after { content: '→'; }
+
+    /* ── CERTIFICATIONS ── */
+    .cert-list { list-style: none; }
+    .cert-list li {
+      font-size: 13.5px; color: var(--text);
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    }
+    .cert-list li:last-child { border-bottom: none; }
+    .cert-year {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--cyan); white-space: nowrap;
+    }
+
+    /* ── CONFERENCES ── */
+    .conf-card {
+      background: var(--bg2); border: 1px solid var(--border); padding: 22px 28px; margin-bottom: 16px;
+      border-left: 3px solid var(--gold);
+    }
+    .conf-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 4px;
+    }
+    .conf-detail { font-size: 13.5px; color: var(--text); }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .contact-item {
+      background: var(--bg2); border: 1px solid var(--border); padding: 20px 22px;
+      text-decoration: none; display: block;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .contact-item:hover { border-color: var(--cyan); box-shadow: var(--glow); }
+    .contact-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; letter-spacing: 3px; color: var(--text-dim);
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .contact-value { font-size: 13.5px; color: var(--cyan); word-break: break-all; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 36px 0; text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 1;
+    }
+
+    /* ── GLITCH ANIMATION ── */
+    @keyframes glitch {
+      0%, 90%, 100% { transform: translate(0); }
+      91% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+      93% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+      95% { transform: translate(0); filter: none; }
+      97% { transform: translate(-1px, 2px); }
+      99% { transform: translate(1px, -2px); }
+    }
+    h1 { animation: glitch 8s infinite; }
+
+    /* ── CURSOR BLINK ── */
+    .cursor {
+      display: inline-block; width: 10px; height: 1.1em;
+      background: var(--cyan); vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero-links { flex-direction: column; }
+      .btn { text-align: center; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <span class="nav-logo">AK.EXE</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="about">
+  <div class="container">
+    <p class="hero-tag">// INITIALIZING PORTFOLIO.SYS</p>
+    <h1>ALI<br><span>KHALID</span></h1>
+    <p class="hero-subtitle">ML RESEARCHER &amp; COMPUTER VISION ENGINEER<span class="cursor"></span></p>
+    <p class="hero-bio">
+      Hi! I am a recent graduate with an MSc in Computer Science from Universiti Teknologi MARA, Shah Alam, Malaysia. My research has focused on deep learning, medical image analysis, and federated learning — areas I find genuinely exciting and still have a lot to learn in. I've been fortunate to contribute to a few published works along the way, and I'm looking forward to seeing where this path leads.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">Deep Learning</span>
+      <span class="badge">Computer Vision</span>
+      <span class="badge">Medical Image Analysis</span>
+      <span class="badge">Federated Learning</span>
+      <span class="badge">Explainable AI</span>
+      <span class="badge">NLP / LLMs</span>
+    </div>
+    <div class="hero-links">
+      <a href="https://scholar.google.com/citations?user=c5gbM-gAAAAJ&hl=ja" target="_blank" class="btn">Google Scholar</a>
+      <a href="https://www.linkedin.com/in/ali-khalid-373314201" target="_blank" class="btn">LinkedIn</a>
+      <a href="mailto:alikhalid11138@gmail.com" class="btn btn-mg">alikhalid11138@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">// ACADEMIC RECORD</p>
+      <h2>EDU<span>CATION</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="edu-school">Universiti Teknologi MARA (UiTM)</div>
+      <div class="edu-degree">Master of Computer Science — Computer Science</div>
+      <div class="edu-meta">Shah Alam, Malaysia &nbsp;|&nbsp; Mar 2024 – Oct 2025 &nbsp;|&nbsp; GPA: 3.97 / 4.00</div>
+      <div class="edu-thesis">Thesis: EfficientNetB4-Based CNN Model for Precise Skin Lesion Classification</div>
+      <span class="award-tag">APF Faculty Postgraduate Award 2024</span>
+      <span class="award-tag">APF Faculty Postgraduate Award 2025</span>
+      <span class="award-tag">ASC Excellent Candidate Award 2025</span>
+    </div>
+
+    <div class="card">
+      <div class="edu-school">SRM Institute of Science and Technology Delhi NCR</div>
+      <div class="edu-degree">B.Tech — Computer Science &amp; Engineering</div>
+      <div class="edu-meta">India &nbsp;|&nbsp; Jul 2018 – May 2022 &nbsp;|&nbsp; CGPA: 9.44 / 10 &nbsp;|&nbsp; First Class with Distinction</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">// WORK LOG</p>
+      <h2>EXPER<span>IENCE</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="exp-role">Research Assistant</div>
+      <div class="exp-org">Independent Research — Supervised by Dr. Muhammad Amir Khan, UiTM</div>
+      <div class="exp-date">Sep 2024 — Present &nbsp;|&nbsp; Shah Alam, Malaysia</div>
+      <ul class="exp-bullets">
+        <li>Benchmarked SVM, NB, CNN, BiLSTM, BERT, and fine-tuned LLaMA 3.2 on Roman Urdu (RUSAD) text. Paper published at ISWTA 2025.</li>
+        <li>Developed real-time CCTV crime detection using ResNet + BiLSTM on custom datasets. Paper published at ISWTA 2025.</li>
+        <li>Designed a lightweight 21M-parameter EfficientNetB4 model with custom 3D soft attention and minority-class-targeted MixUp for Master's thesis. Published in ETASR.</li>
+        <li>Developed a privacy-preserving federated learning framework using KNN + FedAvg for Parkinson's disease prediction (82.8% accuracy, 88.4% recall). Published in ETASR.</li>
+        <li>Built a VGG16 transfer learning pipeline with Grad-CAM interpretability on 10,000+ melanoma images. Published in ETASR.</li>
+      </ul>
+    </div>
+
+    <div class="card card-mg">
+      <div class="exp-role">Teaching Assistant</div>
+      <div class="exp-org">Universiti Teknologi MARA (UiTM)</div>
+      <div class="exp-date">Oct 2024 — Jul 2025 &nbsp;|&nbsp; Shah Alam, Malaysia</div>
+      <ul class="exp-bullets">
+        <li>Conducted machine learning lab sessions with interactive Python coding exercises.</li>
+        <li>Supervised laboratory exercises for Enterprise Programming (CSC584).</li>
+        <li>Provided assessment and feedback through tutorial and assignment marking.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="exp-role">Machine Learning Research Intern</div>
+      <div class="exp-org">Verzeo Pvt. Ltd.</div>
+      <div class="exp-date">Mar 2021 — May 2021 &nbsp;|&nbsp; Bangalore, India</div>
+      <ul class="exp-bullets">
+        <li>Led development of a K-means clustering model with PSO optimization for biometric identification.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">// RESEARCH OUTPUT</p>
+      <h2>PUBLI<span>CATIONS</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Pub 1 -->
+    <div class="pub-card">
+      <p class="pub-venue">Engineering, Technology &amp; Applied Science Research &nbsp;·&nbsp; 2026</p>
+      <p class="pub-title">EfficientNetB4-Based CNN Model for Skin Lesion Classification</p>
+      <p class="pub-authors">A. Khalid, M. A. Khan, R. Manan, M. Shahid, U. F. Khattak</p>
+      <a class="pub-link" href="https://doi.org/10.48084/etasr.15419" target="_blank">DOI: 10.48084/etasr.15419</a>
+    </div>
+
+    <!-- Pub 2 -->
+    <div class="pub-card">
+      <p class="pub-venue">Engineering, Technology &amp; Applied Science Research &nbsp;·&nbsp; 2026</p>
+      <p class="pub-title">A Melanoma Skin Cancer Detection and Classification System Using Deep Transfer Learning</p>
+      <p class="pub-authors">M. M. Yaqoob, S. Hamidullah, R. Manan, A. Khalid, U. F. Khattak, M. A. Khan</p>
+      <a class="pub-link" href="https://doi.org/10.48084/etasr.15730" target="_blank">DOI: 10.48084/etasr.15730</a>
+    </div>
+
+    <!-- Pub 3 -->
+    <div class="pub-card">
+      <p class="pub-venue">Engineering, Technology &amp; Applied Science Research &nbsp;·&nbsp; 2026</p>
+      <p class="pub-title">Modified Federated Learning for Parkinson's Disease Prediction</p>
+      <p class="pub-authors">S. Ghazal, R. Manan, A. Khalid, M. Shahid, U. F. Khattak, M. A. Khan</p>
+      <a class="pub-link" href="https://doi.org/10.48084/etasr.15839" target="_blank">DOI: 10.48084/etasr.15839</a>
+    </div>
+
+    <!-- Pub 4 -->
+    <div class="pub-card">
+      <p class="pub-venue">IEEE ISWTA 2025 &nbsp;·&nbsp; Malaysia</p>
+      <p class="pub-title">Roman Urdu Sentiment Analysis: Traditional Approaches vs LLMs</p>
+      <p class="pub-authors">M. Ismail, M. M. Yaqoob, A. Khalid, R. Manan, U. F. Khattak, M. A. Khan</p>
+      <a class="pub-link" href="https://doi.org/10.1109/ISWTA68114.2025.11330087" target="_blank">DOI: 10.1109/ISWTA68114.2025.11330087</a>
+    </div>
+
+    <!-- Pub 5 -->
+    <div class="pub-card">
+      <p class="pub-venue">IEEE ISWTA 2025 &nbsp;·&nbsp; Malaysia</p>
+      <p class="pub-title">Unleashing the Power of Deep Learning: Revolutionizing Crime Detection with CCTV Technology</p>
+      <p class="pub-authors">M. M. Yaqoob, M. A. Chaudary, M. U. Naseem, A. Khalid, U. F. Khattak, M. A. Khan</p>
+      <a class="pub-link" href="https://doi.org/10.1109/ISWTA68114.2025.11330036" target="_blank">DOI: 10.1109/ISWTA68114.2025.11330036</a>
+    </div>
+
+    <!-- Pub 6 — Accepted -->
+    <div class="pub-card">
+      <p class="pub-venue">Journal Paper &nbsp;·&nbsp; <span class="pub-accepted">⬡ ACCEPTED</span></p>
+      <p class="pub-title">LiteRAB: A Lightweight Residual Attention Network for Real-Time Image Dehazing</p>
+      <p class="pub-authors">S. R. Zahra, F. Hussain, A. Hassan, A. Khalid, U. F. Khattak, C. Lim, M. A. Khan</p>
+      <span class="pub-accepted">Awaiting publication</span>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENT PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">// ACTIVE REPOSITORIES</p>
+      <h2>CURRENT <span>PROJECTS</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="project-card">
+      <p class="project-tag">// Causal ML &nbsp;·&nbsp; Fairness &nbsp;·&nbsp; OOD Generalisation</p>
+      <p class="project-title">Causal Deconfounding — Proof of Concept</p>
+      <p class="project-desc">
+        Demonstrates that a conventional, purely associative deep model silently latches onto a confounder and therefore (a) fails to generalise out-of-distribution and (b) is unfair across patient subgroups. Adding the invariance objective of IRM removes the shortcut, which restores fairness and OOD robustness — all in a self-contained notebook.
+      </p>
+      <a class="project-link" href="https://github.com/alidotkhalid/causal_deconfounding_poc" target="_blank">github.com/alidotkhalid/causal_deconfounding_poc</a>
+    </div>
+
+    <div class="project-card">
+      <p class="project-tag">// Continual Learning &nbsp;·&nbsp; Neuroscience-Inspired &nbsp;·&nbsp; E/I Balance</p>
+      <p class="project-title">E/I-Balanced Dynamic Routing — Proof of Concept</p>
+      <p class="project-desc">
+        Proof of concept for mitigating catastrophic forgetting using excitatory/inhibitory (E/I) balanced routing. Draws on neuroscience principles to dynamically gate network pathways, preserving previously learned representations while acquiring new tasks.
+      </p>
+      <a class="project-link" href="https://github.com/alidotkhalid/ei-dynamic-routing-poc" target="_blank">github.com/alidotkhalid/ei-dynamic-routing-poc</a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">// CAPABILITY STACK</p>
+      <h2>SKILLS &amp; <span>CERTS</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-block">
+        <p class="skill-block-title">// Languages</p>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Node.js</span>
+      </div>
+      <div class="skill-block">
+        <p class="skill-block-title">// ML / DL</p>
+        <span class="skill-tag">TensorFlow / Keras</span>
+        <span class="skill-tag">PyTorch</span>
+        <span class="skill-tag">Scikit-learn</span>
+        <span class="skill-tag">CNN Architectures</span>
+        <span class="skill-tag">Transfer Learning</span>
+        <span class="skill-tag">Federated Learning</span>
+        <span class="skill-tag">Explainable AI</span>
+      </div>
+      <div class="skill-block">
+        <p class="skill-block-title">// Healthcare AI</p>
+        <span class="skill-tag">Medical Image Segmentation</span>
+        <span class="skill-tag">Class Imbalance Handling</span>
+        <span class="skill-tag">Grad-CAM / Saliency Maps</span>
+        <span class="skill-tag">Privacy-Preserving ML</span>
+        <span class="skill-tag">Clinical Data Analysis</span>
+      </div>
+      <div class="skill-block">
+        <p class="skill-block-title">// Research Methods</p>
+        <span class="skill-tag">Literature Review</span>
+        <span class="skill-tag">Statistical Testing</span>
+        <span class="skill-tag">Feature Engineering</span>
+        <span class="skill-tag">Comparative Analysis</span>
+        <span class="skill-tag">Medical Data Analysis</span>
+      </div>
+      <div class="skill-block">
+        <p class="skill-block-title">// Other</p>
+        <span class="skill-tag">Qiskit (Quantum)</span>
+        <span class="skill-tag">Bootstrap</span>
+        <span class="skill-tag">Git / GitHub</span>
+      </div>
+    </div>
+
+    <br />
+    <div class="section-header" style="margin-bottom: 24px;">
+      <p class="section-eyebrow">// VERIFIED CREDENTIALS</p>
+    </div>
+    <ul class="cert-list">
+      <li><span>NPTEL — Elite Certificate in Cloud Computing (IIT Kharagpur)</span><span class="cert-year">2020</span></li>
+      <li><span>Quantum Computing Certification — Qubit by Qubit &amp; IBM Quantum</span><span class="cert-year">2020</span></li>
+      <li><span>NPTEL — Elite Certificate in Machine Learning (IIT Madras)</span><span class="cert-year">2021</span></li>
+      <li><span>Machine Learning with Python Certificate — Verzeo Edutech</span><span class="cert-year">2021</span></li>
+    </ul>
+
+    <br />
+    <div class="section-header" style="margin-bottom: 24px;">
+      <p class="section-eyebrow">// CONFERENCE APPEARANCES</p>
+    </div>
+    <div class="conf-card">
+      <div class="conf-name">9th IEEE Symposium on Wireless Technology &amp; Applications (ISWTA 2025)</div>
+      <div class="conf-detail">Malaysia — Presented two papers: Roman Urdu Sentiment Analysis and Deep Learning-based CCTV Crime Detection.</div>
+    </div>
+    <div class="conf-card">
+      <div class="conf-name">International Conference on Data Science &amp; Emerging Technologies (DaSET 2025)</div>
+      <div class="conf-detail">Malaysia — Presented: LiteRAB: A Lightweight Residual Attention Network for Real-Time Image Dehazing.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">// ESTABLISH CONNECTION</p>
+      <h2>CON<span>TACT</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="contact-grid">
+      <a href="mailto:alikhalid11138@gmail.com" class="contact-item">
+        <div class="contact-label">// Primary Email</div>
+        <div class="contact-value">alikhalid11138@gmail.com</div>
+      </a>
+      <a href="mailto:99objects-coping@icloud.com" class="contact-item">
+        <div class="contact-label">// Secondary Email</div>
+        <div class="contact-value">99objects-coping@icloud.com</div>
+      </a>
+      <a href="https://www.linkedin.com/in/ali-khalid-373314201" target="_blank" class="contact-item">
+        <div class="contact-label">// LinkedIn</div>
+        <div class="contact-value">ali-khalid-373314201</div>
+      </a>
+      <a href="https://scholar.google.com/citations?user=c5gbM-gAAAAJ&hl=ja" target="_blank" class="contact-item">
+        <div class="contact-label">// Google Scholar</div>
+        <div class="contact-value">c5gbM-gAAAAJ</div>
+      </a>
+      <a href="https://github.com/alidotkhalid" target="_blank" class="contact-item">
+        <div class="contact-label">// GitHub</div>
+        <div class="contact-value">github.com/alidotkhalid</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 ALI KHALID &nbsp;·&nbsp; BUILT WITH STATIC HTML &nbsp;·&nbsp; HOSTED ON GITHUB PAGES</p>
+  </div>
+</footer>
+
+</body>
+</html>
